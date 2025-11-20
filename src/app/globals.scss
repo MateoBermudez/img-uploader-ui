@@ -1,0 +1,63 @@
+$background-light: #f9fafc;
+$foreground-light: #0a0a0a;
+$background-dark: #121826;
+$foreground-dark: #f9fafc;
+
+$mobile: 320px;
+$mobileLg: 480px;
+$tablet: 768px;
+$laptop: 1024px;
+$desktop: 1200px;
+$desktopLg: 1440px;
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: $foreground-light;
+  background: $background-light;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+   cursor: pointer;
+ }
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    color: $foreground-dark;
+    background: $background-dark;
+  }
+}
+
+body[data-theme="light"] {
+  color: $foreground-light !important;
+  background: $background-light !important;
+}
+
+body[data-theme="dark"] {
+  color: $foreground-dark !important;
+  background: $background-dark !important;
+}

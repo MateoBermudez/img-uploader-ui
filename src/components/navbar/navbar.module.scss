@@ -1,0 +1,61 @@
+.main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 0.5px solid #575656;
+}
+
+.logo {
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.controlButton {
+  cursor: pointer;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  border-color: #e3e3e3;
+  border-radius: 0.5rem;
+  box-shadow: none;
+  color: #1e1e1e;
+}
+
+.stickyNavStyle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #fff;
+  width: 100%;
+  height: 86px;
+}
+
+[data-theme="dark"] {
+  .controlButton {
+    background-color: #1e1e1e;
+    border-color: #3a3a3a;
+    color: #ffffff;
+  }
+
+  .stickyNavStyle {
+    background-color: #121826;
+  }
+}

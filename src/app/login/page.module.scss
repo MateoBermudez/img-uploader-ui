@@ -1,0 +1,277 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 86px;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginBox {
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px 50px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  transform-origin: top;
+
+  &.signupMode {
+    padding-bottom: 60px;
+    transform: scale(1.01);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #353535;
+  }
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.error {
+  color: red !important;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.message {
+  color: #2e2e2e;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.gridRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.signupExtra {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  transition: max-height 0.6s ease, opacity 0.5s ease, transform 0.4s ease;
+  transform-origin: top;
+
+  &.hidden {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  &.visible {
+    max-height: 600px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+
+  label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #444;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #444;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #0070f3;
+      box-shadow: 0 0 3px rgba(0, 112, 243, 0.3);
+    }
+  }
+}
+
+.loginButton {
+  background-color: #0070f3;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #005bb5;
+    transform: translateY(-1px);
+  }
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 10px 0 4px;
+
+  span {
+    background: #fff;
+    color: #888;
+    font-size: 0.9rem;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #ddd;
+    transform: translateY(-50%);
+    z-index: 0;
+  }
+}
+
+.oauthContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.oauthButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  color: #444;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #f5f5f5;
+    border-color: #999;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.toggleText {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  color: #353535;
+}
+
+.toggleLink {
+  color: #0070f3;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+
+  &:hover {
+    text-decoration: underline;
+    color: #005bb5;
+  }
+}
+
+[data-theme="dark"] {
+  .error {
+    color: #ff8b8b !important;
+  }
+
+  .message {
+    color: #efeeee;
+  }
+
+  .toggleText {
+    color: #dfdfdf;
+  }
+
+  .loginBox {
+    background: #0f1113;
+    color: #f3f3f3;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+
+    h2 {
+      color: #dfdfdf;
+    }
+
+    label {
+      color: #ddd;
+    }
+
+    input {
+      background: #1a1c1f;
+      border-color: #2b2b2b;
+      color: #fff;
+
+      &:focus {
+        border-color: #3791ff;
+      }
+    }
+
+    .divider span {
+      background: #0f1113;
+      color: #aaa;
+    }
+
+    .oauthButton {
+      background: #1a1c1f;
+      border-color: #2b2b2b;
+      color: #ddd;
+
+      &:hover {
+        background: #2b2b2b;
+      }
+    }
+
+    .loginButton {
+      background-color: #3791ff;
+
+      &:hover {
+        background-color: #2e7ae0;
+      }
+    }
+
+    .toggleLink {
+      color: #7ab7ff;
+
+      &:hover {
+        color: #a3cdff;
+      }
+    }
+  }
+}
