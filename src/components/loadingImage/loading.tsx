@@ -1,7 +1,11 @@
 import React from "react";
 import styles from "./loading.module.scss";
 
-function Loading() {
+interface Props {
+    status?: string;
+}
+
+function Loading({ status }: Props) {
     return (
         <section
             id="loading-image"
@@ -11,6 +15,7 @@ function Loading() {
                 <h2 className={styles.title}>
                     Uploading, <span>please wait...</span>
                 </h2>
+                {status && <h3 className={styles.status}>{status}</h3>}
                 <div
                     className={styles.progress}
                     role="progressbar"

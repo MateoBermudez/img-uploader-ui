@@ -54,6 +54,12 @@
   animation-fill-mode: both;
 }
 
+.status {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: #999;
+}
+
 @keyframes slide {
   from {
     transform: translateX(0) translateZ(0);
