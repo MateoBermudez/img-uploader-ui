@@ -4,6 +4,7 @@ import React, {createContext, ReactNode, useContext, useEffect, useState} from "
 import {apiClient, setAccessToken} from '@/services/apliClient';
 import {User} from "@/types/user";
 import {RegisterPayload} from "@/types/registerPayload";
+import {backendUrls} from "@/types/constants";
 
 interface AuthContextValue {
     user: User | null;
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             username: payload.username,
             passwordHash: payload.password,
         };
-        const { data } = await apiClient.post('/auth/signup', { user: newUser }, { withCredentials: true });
+        const { data } = await apiClient.post(backendUrls.signup, { user: newUser }, { withCredentials: true });
         if (data?.token) applyAccessToken(data.token);
         try {
             await me();
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 
     const login = async (identifier: string, password: string) => {
-        const { data } = await apiClient.post("/auth/login", { identifier, password }, { withCredentials: true });
+        const { data } = await apiClient.post(backendUrls.login, { identifier, password }, { withCredentials: true });
         if (data?.token) applyAccessToken(data.token);
         try {
             await me();
@@ -59,8 +60,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = async () => {
         try {
-            await apiClient.post("/auth/logout", {}, {withCredentials: true});
-            await apiClient.get('/auth/oauth/logout', {withCredentials: true});
+            await apiClient.post(backendUrls.logoutBase, {}, {withCredentials: true});
+            await apiClient.get(backendUrls.logoutOAuth, {withCredentials: true});
         } catch {
         } finally {
             applyAccessToken("");
@@ -69,7 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const me = async () => {
-        const { data } = await apiClient.get("/auth/me", { withCredentials: true });
+        const { data } = await apiClient.get(backendUrls.getUserInfo, { withCredentials: true });
         setUser(data.user ?? null);
     }
 

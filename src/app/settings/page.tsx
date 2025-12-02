@@ -4,18 +4,28 @@ import React, { useEffect } from 'react';
 import styles from './page.module.scss';
 import { useAuth } from '@/context/authContext';
 import { useRouter } from 'next/navigation';
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 function SettingsPage() {
-    const { user, isAuthenticated } = useAuth();
-    const router = useRouter();
+    const { user, isAuthenticated, me } = useAuth();
+    const router: AppRouterInstance = useRouter();
     const [error, setError] = React.useState<string | null>(null);
     const [message, setMessage] = React.useState<string | null>(null);
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            router.replace('/login');
+
+        if (isAuthenticated) return;
+
+        async function ensureAuth() {
+            try {
+                await me();
+            } catch {
+                router.push('/login');
+            }
         }
-    }, [isAuthenticated, router]);
+
+        void ensureAuth();
+    }, [isAuthenticated, me, router]);
 
     function formatDateUTC(dateString: string) {
         if (!dateString) return null;

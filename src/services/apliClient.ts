@@ -1,4 +1,5 @@
 import axios, {AxiosHeaders, AxiosRequestConfig, AxiosRequestHeaders} from 'axios';
+import {backendUrls} from "@/types/constants";
 
 export const apiClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
@@ -81,14 +82,14 @@ apiClient.interceptors.response.use(
         if (
             status === 401 &&
             !cfg._retryAuth &&
-            !url.includes('/auth/login') &&
-            !url.includes('/auth/refresh') &&
-            !url.includes('/auth/signup')
+            !url.includes(backendUrls.login) &&
+            !url.includes(backendUrls.refresh) &&
+            !url.includes(backendUrls.signup)
         ) {
             try {
                 cfg._retryAuth = true;
                 const { data } = await apiClient.post(
-                    `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/refresh`,
+                    `${process.env.NEXT_PUBLIC_BASE_API_URL}${backendUrls.refresh}`,
                     {},
                     { withCredentials: true }
                 );

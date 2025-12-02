@@ -6,6 +6,7 @@ import {ImageItem} from "@/types/image";
 import {useEffect, useState} from "react";
 import {apiClient} from "@/services/apliClient";
 import {RawImageDto} from "@/types/rawImageDto";
+import {backendUrls} from "@/types/constants";
 
 function GlobalUploadsPage() {
     const [images, setImages] = useState<ImageItem[]>([]);
@@ -13,7 +14,7 @@ function GlobalUploadsPage() {
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const result = await apiClient.get('/images/page', {
+                const result = await apiClient.get(backendUrls.getAllMedia, {
                     params: { page: 1, limit: 100 },
                     withCredentials: true
                 });

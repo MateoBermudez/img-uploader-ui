@@ -8,21 +8,22 @@ import {useRouter} from "next/navigation";
 import React, {useEffect} from "react";
 import {apiClient} from "@/services/apliClient";
 import {RawImageDto} from "@/types/rawImageDto";
+import {backendUrls} from "@/types/constants";
 
 function MyUploadsPage() {
     const {user, isAuthenticated} = useAuth();
     const router = useRouter();
     const [images, setImages] = React.useState<ImageItem[]>([]);
 
-    useEffect(() => {
+    useEffect((): void => {
         if (!isAuthenticated) {
-            return;
+            return router.push('/login');
         }
-        if (!user) return;
+        if (!user) return router.push('/login');
 
         const fetchImages = async () => {
             try {
-                const result = await apiClient.get('/images', {
+                const result = await apiClient.get(backendUrls.getUserMedia, {
                     params: { page: 1, limit: 100 },
                     withCredentials: true
                 });

@@ -9,6 +9,7 @@ import Loading from "@/components/loadingImage/loading";
 import {MdDeleteForever} from "react-icons/md";
 import {apiClient} from "@/services/apliClient";
 import {ApiError} from "@/types/apiError";
+import {backendUrls, shortPolling, successStatusCodes, videoStatusCodes} from "@/types/constants";
 
 type MediaKind = "image" | "video" | null;
 
@@ -21,8 +22,6 @@ function MediaUploadBox() {
     const [isMediaLoaded, setIsMediaLoaded] = useState<boolean>(false);
     const [file, setFile] = useState<File | null>(null);
     const [mediaKind, setMediaKind] = useState<MediaKind>(null);
-    const [uploadProgress, setUploadProgress] = useState<number>(0);
-    const [videoId, setVideoId] = useState<string | null>(null);
     const pollRef = useRef<NodeJS.Timeout | null>(null);
     const [loadStatus, setLoadStatus] = useState<string>("Initializing...");
 
@@ -34,7 +33,6 @@ function MediaUploadBox() {
         setIsMediaLoaded(false);
         setError("");
         setMessage("");
-        setUploadProgress(0);
 
         const isImage = nextFile.type.startsWith("image/");
         const isVideo = nextFile.type.startsWith("video/");
@@ -95,27 +93,20 @@ function MediaUploadBox() {
 
             const isVideo = file.type.startsWith("video/");
 
-            const path = isVideo ? "/images/upload/video" : "/images/upload";
+            const path = isVideo ? backendUrls.uploadVideo : backendUrls.uploadImage;
 
             const response = await apiClient.post(path, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
                 withCredentials: true,
-                onUploadProgress: (evt) => {
-                    if (evt.total) {
-                        const pct = Math.round((evt.loaded / evt.total) * 100);
-                        setUploadProgress(pct);
-                    }
-                }
             });
 
-            const status = response.status;
-            const { type, videoId } = response.data;
+            const status: number = response.status;
+            const { type, videoUuid } = response.data;
 
-            if (status >= 200 && status < 300) {
-                if (type === 'video' && videoId) {
+            if (successStatusCodes.has(status)) {
+                if (type === 'video' && videoUuid) {
                     setMessage("Processing Video...");
-                    setVideoId(videoId);
-                    startVideoStatusPolling(videoId);
+                    startVideoStatusPolling(videoUuid);
                 } else {
                     setMessage("Successfully uploaded!");
                     setIsMediaLoaded(true);
@@ -134,7 +125,7 @@ function MediaUploadBox() {
 
         } catch (err: unknown) {
             const apiErr = err as ApiError;
-            const apiMsg =
+            const apiMsg: string =
                 apiErr?.response?.data?.message ||
                 apiErr?.message ||
                 "An error occurred. Please try again.";
@@ -145,18 +136,18 @@ function MediaUploadBox() {
     }
 
     const startVideoStatusPolling = (videoId: string) => {
-        let attempts = 0;
-        const maxAttempts = 30;
+        let attempts: number = 0;
+        const maxAttempts = shortPolling.maxAttempts;
         setIsLoading(true);
         setIsMediaLoaded(false);
 
-        const tick = async () => {
+        const tick = async (): Promise<void> => {
             try {
-                const resp = await apiClient.get(`/images/video/get-status/${videoId}`, { withCredentials: true });
-                const status = resp.data?.status?.status?.code;
-                const statusName = resp.data?.status?.status?.name;
+                const resp = await apiClient.get(`${backendUrls.getVideoStatus}${videoId}`, { withCredentials: true });
+                const status: number = resp.data?.status?.code;
+                const statusName: string = resp.data?.status?.name;
                 setLoadStatus(statusName);
-                if (status === 3) {
+                if (status === videoStatusCodes.FINISHED) {
                     setMessage("Video processing complete!");
                     setIsLoading(false);
                     setIsMediaLoaded(true);
@@ -179,7 +170,7 @@ function MediaUploadBox() {
         };
 
         stopVideoStatusPolling();
-        pollRef.current = setInterval(tick, 5000);
+        pollRef.current = setInterval(tick, shortPolling.intervalMs);
         tick().then(() => {});
     };
 
@@ -197,7 +188,6 @@ function MediaUploadBox() {
     const handleRemove = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         stopVideoStatusPolling();
-        setVideoId(null);
         setIsMediaLoaded(false);
         setIsLoading(false);
         setPreview(null);
@@ -205,7 +195,6 @@ function MediaUploadBox() {
         setError("");
         setMessage("");
         setMediaKind(null);
-        setUploadProgress(0);
         setLoadStatus("Initializing...");
     };
 

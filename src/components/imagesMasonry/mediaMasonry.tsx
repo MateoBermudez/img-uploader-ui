@@ -1,5 +1,6 @@
 import styles from "./mediaMasonry.module.scss";
 import {ImageItem} from "@/types/image";
+import {mediaDeliveryEmbedSegment, mediaDeliveryHostnames} from "@/types/constants";
 
 interface Props {
     images: ImageItem[];
@@ -15,8 +16,8 @@ function MediaMasonry({ images }: Props) {
     }
 
     function isMediaDeliveryEmbed(src: string): boolean {
-        const u = toURL(src);
-        return !!u && u.hostname === "iframe.mediadelivery.net" && u.pathname.includes("/embed/");
+        const u: URL | null = toURL(src);
+        return !!u && mediaDeliveryHostnames.has(u.hostname) && u.pathname.includes(mediaDeliveryEmbedSegment);
     }
 
     return (
