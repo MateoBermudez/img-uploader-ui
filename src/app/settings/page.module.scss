@@ -1,0 +1,129 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileCard {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px 36px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  width: 100%;
+  max-width: 720px;
+  transition: all 0.25s ease;
+}
+
+.profileCard h2 {
+  margin: 0 0 18px 0;
+  font-size: 1.4rem;
+  color: #222;
+}
+
+.error {
+  color: red !important;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.message {
+  color: #2e2e2e;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 600;
+}
+
+.field div {
+  background: #f9f9f9;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #222;
+}
+
+.title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #111;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.logoutButton {
+  background-color: #e53e3e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.12s ease;
+}
+
+.logoutButton:hover {
+  background-color: #c53030;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] {
+  .profileCard {
+    background: #0f1113;
+    color: #eaeaea;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  }
+
+  .field div {
+    background: #1a1c1f;
+    color: #eaeaea;
+  }
+
+  .field label {
+    color: #cfcfcf;
+  }
+
+  .logoutButton {
+    background-color: #d94f4f;
+  }
+
+  .title {
+    color: #e1e1e1;
+  }
+
+  .error {
+    color: #ff8b8b !important;
+  }
+
+  .message {
+    color: #efeeee;
+  }
+}
