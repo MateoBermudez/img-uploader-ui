@@ -85,7 +85,6 @@ function SettingsPage() {
                             Delete account
                         </button>
                     </div>
-
                     {error && <h2 className={styles.error}>{error}</h2>}
                     {message && <h2 className={styles.message}>{message}</h2>}
                 </div>
