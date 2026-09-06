@@ -14,7 +14,9 @@ function SettingsPage() {
 
     useEffect(() => {
 
-        if (isAuthenticated) return;
+        if (isAuthenticated) {
+          return;
+        }
 
         async function ensureAuth() {
             try {
